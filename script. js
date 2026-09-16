@@ -1,0 +1,93 @@
+// ================================
+// MOBILE NAVIGATION
+// ================================
+
+const menuButton = document.querySelector(".menu-button");
+const navLinks = document.querySelector(".nav-links");
+
+menuButton.addEventListener("click", () => {
+navLinks.classList.toggle("active");
+});
+
+// Close the menu when a link is clicked
+
+const links = document.querySelectorAll(".nav-links a");
+
+links.forEach((link) => {
+link.addEventListener("click", () => {
+navLinks.classList.remove("active");
+});
+});
+// ================================
+// SCROLL REVEAL ANIMATION
+// ================================
+
+const revealElements = document.querySelectorAll(
+    ".section, .service-card, .project-card, .skill, .contact-section"
+);
+
+const revealObserver = new IntersectionObserver(
+(entries) => {
+entries.forEach((entry) => {
+if (entry.isIntersecting) {
+entry.target.classList.add("show");
+}
+});
+},
+{
+threshold: 0.12
+}
+);
+
+revealElements.forEach((element) => {
+element.classList.add("reveal");
+revealObserver.observe(element);
+});
+// ================================
+// HERO TYPING EFFECT
+// ================================
+
+const typingText = document.getElementById("typing-text");
+
+const words = [
+    "FRONTEND DEVELOPER",
+    "WEB DEVELOPER",
+    "CREATIVE BUILDER"
+];
+
+let wordIndex = 0;
+let characterIndex = 0;
+let deleting = false;
+
+function typeEffect() {
+
+    const currentWord = words[wordIndex];
+
+    if (!deleting) {
+        typingText.textContent =
+            currentWord.substring(0, characterIndex + 1);
+
+        characterIndex++;
+
+        if (characterIndex === currentWord.length) {
+            deleting = true;
+            setTimeout(typeEffect, 1800);
+            return;
+        }
+
+    } else {
+        typingText.textContent =
+            currentWord.substring(0, characterIndex - 1);
+
+        characterIndex--;
+
+        if (characterIndex === 0) {
+            deleting = false;
+            wordIndex = (wordIndex + 1) % words.length;
+        }
+    }
+
+    setTimeout(typeEffect, deleting ? 55 : 90);
+}
+
+typeEffect();
